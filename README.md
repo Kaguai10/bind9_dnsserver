@@ -46,17 +46,28 @@ $TTL    604800
 ```
 Setelah selesai melakukan konfigurasi, simpan perubahan dengan menekan Ctrl+S, kemudian keluar dari editor dengan Ctrl+X. Jika kita ingin membuat subdomain kita dapat menambahkan subdomain-tersebut pada file forward ini. Dalam pembuatan subdomain ada beberapa resource record untuk domain tertentu seperti:
 1. Menggunakan A Record (IPv4 Address Record) => Ini adalah cara paling umum untuk mengarahkan subdomain langsung ke alamat IPv4 tertentu. contoh:
-```text
+```txt
 blog    IN  A   192.168.0.137
-app     IN  A   192.168.1.11
+app     IN  A   192.168.1.130
 ```
 2. Menggunakan AAAA Record (IPv6 Address Record) => Mirip dengan A Record, tetapi digunakan jika server tujuan menggunakan alamat IPv6. Contoh:
-```text
+```txt
 blog    IN  AAAA    2001:db8::1
 ```
-3. Menggunakan CNAME Record (Canonical Name Record)  => Digunakan untuk membuat alias, di mana subdomain mengarah ke nama domain/subdomain lain, bukan ke IP langsung. 
-
-4. 
+3. Menggunakan CNAME Record (Canonical Name Record)  => Digunakan untuk membuat alias, di mana subdomain mengarah ke nama domain/subdomain lain, bukan ke IP langsung. Contoh:
+```txt
+blog    IN      CNAME   kaguai.net.
+```
+4. Menggunakan NS Record (Name Server Record) untuk Delegasi Digunakan untuk mendelegasikan subdomain ke server DNS lain yang berbeda. Contoh:
+```txt
+dev     IN  NS      ns1.dev.domainanda.com.
+ns1.dev IN  A       192.168.1.137
+```
+5. Menggunakan MX Record (Mail Exchanger) pada Subdomain. Jadi Subdomain tidak hanya untuk website, tetapi bisa juga untuk mail server. Contoh:
+```txt
+mail    IN  A       192.168.1.20
+mail    IN  MX  10  mail.domainanda.com.
+```
 
 Selanjutnya, kita akan melakukan konfigurasi pada file db.reverse. File reverse memiliki fungsi kebalikan dari file forward, yaitu memetakan IP Address menjadi nama domain. Untuk membuat file reverse, salin terlebih dahulu file db.127 dan ubah namanya menjadi db.reverse. Konfigurasi file ini sama seperti file forward, yaitu cukup mengubah bagian localhost dan IP sesuai kebutuhan. Perlu diperhatikan bahwa pada konfigurasi reverse, kalian hanya perlu menuliskan oktets terakhir dari IP Address. Sebagai contoh:IP saya adalah 192.168.0.137, maka di file reverse cukup menuliskan 137 saja. Berikut hasil setelah di konfigurasi
 ```txt
@@ -75,6 +86,16 @@ $TTL    604800
 137     IN      PTR     kaguai.net.  
 ```
 Setelah dikonfigurasi kalian dapet menyimpan dengan menekan ctrl+s lalu keluar dengan menekan ctrl+x
+
+**Selain itu Jika kalian memiliki subdomain tambahkan juga di db.192 seperti ini:**
+```txt
+137     IN      PTR     www.kaguai.net.
+```
+
+**Kita juga dapat membuat 2 domain dengan membuat 2 db.forward lalu pada db.reverse tambahkan domain kedua anda di paling bawah Seperti ini:**
+```txt
+137     IN      PTR     domain2.com.
+```
 
 Selanjutnya, kita akan mendefinisikan **Zone Domain**. Pada bagian ini, kita akan menentukan zona-zona yang akan digunakan oleh domain yang kita konfigurasi. File ini memiliki peranan penting karena akan menentukan file **forward** dan **reverse** mana yang akan digunakan serta di-load oleh DNS server.
 
