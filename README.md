@@ -42,10 +42,21 @@ $TTL    604800
                          604800 )       ; Negative Cache TTL  
 ;
 @       IN      NS      kaguai.net.
-@       IN      A       192.168.0.137         
-@       IN      AAAA    ::1           
+@       IN      A       192.168.0.137        
 ```
-Setelah selesai melakukan konfigurasi, simpan perubahan dengan menekan Ctrl+S, kemudian keluar dari editor dengan Ctrl+X.
+Setelah selesai melakukan konfigurasi, simpan perubahan dengan menekan Ctrl+S, kemudian keluar dari editor dengan Ctrl+X. Jika kita ingin membuat subdomain kita dapat menambahkan subdomain-tersebut pada file forward ini. Dalam pembuatan subdomain ada beberapa resource record untuk domain tertentu seperti:
+1. Menggunakan A Record (IPv4 Address Record) => Ini adalah cara paling umum untuk mengarahkan subdomain langsung ke alamat IPv4 tertentu. contoh:
+```text
+blog    IN  A   192.168.0.137
+app     IN  A   192.168.1.11
+```
+2. Menggunakan AAAA Record (IPv6 Address Record) => Mirip dengan A Record, tetapi digunakan jika server tujuan menggunakan alamat IPv6. Contoh:
+```text
+blog    IN  AAAA    2001:db8::1
+```
+3. Menggunakan CNAME Record (Canonical Name Record)  => Digunakan untuk membuat alias, di mana subdomain mengarah ke nama domain/subdomain lain, bukan ke IP langsung. 
+
+4. 
 
 Selanjutnya, kita akan melakukan konfigurasi pada file db.reverse. File reverse memiliki fungsi kebalikan dari file forward, yaitu memetakan IP Address menjadi nama domain. Untuk membuat file reverse, salin terlebih dahulu file db.127 dan ubah namanya menjadi db.reverse. Konfigurasi file ini sama seperti file forward, yaitu cukup mengubah bagian localhost dan IP sesuai kebutuhan. Perlu diperhatikan bahwa pada konfigurasi reverse, kalian hanya perlu menuliskan oktets terakhir dari IP Address. Sebagai contoh:IP saya adalah 192.168.0.137, maka di file reverse cukup menuliskan 137 saja. Berikut hasil setelah di konfigurasi
 ```txt
