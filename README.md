@@ -16,7 +16,7 @@ apt update
 ```
 jika sudah lanjut menginstall bind9 dan dnsutils
 ```bash
-apt install bind9 bind9utils dnsutil -y
+apt install bind9 dnsutils -y
 ```
 
 Tunggu proses instalasi hingga selesai. Setelah itu, kita akan berpindah ke direktori Bind untuk mulai mengonfigurasi dan mengatur DNS sesuai kebutuhan.
